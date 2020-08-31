@@ -1,6 +1,8 @@
 package basic.container;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,13 +18,14 @@ public class VBoxExample  extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
 		VBox root = new VBox();//컨테이너 생성
 		root.setPadding(new Insets(10, 10, 10, 10));
 		
 		ImageView iv = new ImageView();
 		iv.setFitWidth(200);
 		iv.setPreserveRatio(true);
-		iv.setImage(new Image("/basic/image/sample.jpg"));
+		iv.setImage(new Image("/basic/images/fruit1.jpg"));
 		//D:\Dev\git\JavaFXProject\JavaFXProject\JavaFXProject\bin에서부터 시작
 		
 		HBox hbox = new HBox(); //컨테이너 생성
@@ -37,6 +40,36 @@ public class VBoxExample  extends Application {
 		hbox.getChildren().add(btnPrev);
 		hbox.getChildren().add(btnNext);
 		VBox.setMargin(hbox, new Insets(10));
+		
+		//이벤트 핸들러 등록하기(p.887~)
+		btnNext.setOnAction(new EventHandler<ActionEvent>() {
+			int i = 1;
+			@Override
+			public void handle(ActionEvent ae) {
+				if(i == 9) {
+					i =1;
+				}
+				iv.setImage(new Image("/basic/images/fruit" + i++ + ".jpg"));
+			}
+			
+		});
+		
+//		//람다식
+//		btnNext.setOnAction((ae) -> {
+//				System.out.println("handel: " + ae.getSource());
+//		});
+		
+		btnPrev.setOnAction(new EventHandler<ActionEvent>() {
+			int i = 1;
+			@Override
+			public void handle(ActionEvent ae) {
+				if(i == 1) {
+					i =9;
+				}
+				iv.setImage(new Image("/basic/images/fruit" + i-- + ".jpg"));
+			}
+			
+		});
 		
 		root.getChildren().add(iv);
 		root.getChildren().add(hbox);
