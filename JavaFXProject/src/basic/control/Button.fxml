@@ -30,9 +30,8 @@ prefHeight="150.0" prefWidth="420.0" fx:controller="basic.control.ButtonControll
 					</children>	
 				</VBox>
 				
-				<ImageView fx:id="checkImageView" fitWidth="100.0" preserveRatio="true">
-					<image><Image url = "basic/images/geek.gif"/></image>
-				</ImageView> 
+				<ImageView fx:id="checkImageView" fitWidth="100.0" preserveRatio="true"/>
+					
 				
 				<Separator orientation = "VERTICAL" prefHeight="100.0" />
 				
