@@ -73,6 +73,7 @@ public class ViewController implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends Phone> obs, Phone oldV, Phone newV) {
+//				imageView.setImage(new Image(getClass().getResource("../images/" + newV.getImage()).toString()));
 				imageView.setImage(new Image("basic/images/" + newV.getImage()));
 			}
 		});
