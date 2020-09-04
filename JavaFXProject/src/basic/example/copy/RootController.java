@@ -1,7 +1,12 @@
-package basic.example;
+package basic.example.copy;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -31,7 +36,9 @@ public class RootController implements Initializable {
 	@FXML TableView<Student> tableView;
 	@FXML Button btnAdd, btnBarChart;
 	
-	ObservableList<Student> list; 
+	ObservableList<Student> list;
+	Connection conn = ConnectionDB.getDB();
+	ObservableList<Student> list2;
 	
 	Stage primaryStage;
 	
@@ -54,11 +61,29 @@ public class RootController implements Initializable {
 		tc.setCellValueFactory(new PropertyValueFactory<>("english"));
 		
 		//성적저장
-		list = FXCollections.observableArrayList();
+//		list = FXCollections.observableArrayList();
+//		list2 = FXCollections.observableArrayList();
 		
-		tableView.setItems(list);
+		tableView.setItems(list2);
 		
 		//자동추가
+		
+		String sql = "select * from student";
+        try {
+           PreparedStatement pstmt =conn.prepareStatement(sql);
+           ResultSet rs = pstmt.executeQuery();
+           while(rs.next()) {
+              Student stu = new Student(rs.getString("name"),
+					                     rs.getInt("korean"),
+					                     rs.getInt("math"),
+					                     rs.getInt("engilsh"));
+              list2.add(stu);
+           };
+        	} catch (SQLException e) {
+	         e.printStackTrace();}
+		
+//		addList();
+		
 		list.add(new Student("학생1",10,15,20));
 		list.add(new Student("학생2",20,30,10));
 		list.add(new Student("학생3",50,25,30));
@@ -94,6 +119,47 @@ public class RootController implements Initializable {
 		
 		
 	}//end of initialize
+	
+	
+	
+//	public void addList() {
+//		
+//		String sql = "select * from STUDENT";
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(sql);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+//	public ObservableList<Student> getStulist() {
+//	      String sql = "select * from student";
+//	         try {
+//	            PreparedStatement pstmt =conn.prepareStatement(sql);
+//	            ResultSet rs = pstmt.executeQuery();
+//	            while(rs.next()) {
+//	               Student stu = new Student(rs.getString("name"),
+//						                     rs.getInt("korean"),
+//						                     rs.getInt("math"),
+//						                     rs.getInt("engilsh"));
+//	               list2.add(stu);
+//	            };
+//
+//	         return list2;
+//
+//	      } catch (SQLException e) {
+//	         e.printStackTrace();
+//	      } 
+//	         finally {
+//	         try {
+//	            conn.close();
+//	         } catch (SQLException e) {
+//	            e.printStackTrace();
+//	         }
+//	      }
+//	         return list2;
+//	   }
+	
 	
 	public void handleDoubleClickAction(String name) {
 		Stage stage = new Stage(StageStyle.UTILITY);
@@ -284,7 +350,18 @@ public class RootController implements Initializable {
 							Integer.parseInt(txtMath.getText()), 
 							Integer.parseInt(txtEnglish.getText()));
 					
-					list.add(student);
+					String sql = "insert into STUDENT values(?,?,?,?)";
+					try {
+						PreparedStatement pstmt = conn.prepareStatement(sql);
+						pstmt.setNString(1,	txtName.getText());
+						pstmt.setNString(2,	txtKorean.getText());
+						pstmt.setNString(3, txtMath.getText());
+						pstmt.setNString(4, txtEnglish.getText());
+						pstmt.executeUpdate();
+						
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					
 					stage.close();
 				}

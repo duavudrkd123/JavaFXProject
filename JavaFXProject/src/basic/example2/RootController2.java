@@ -1,4 +1,4 @@
-package basic.example;
+package basic.example2;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,11 +27,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class RootController implements Initializable {
-	@FXML TableView<Student> tableView;
+public class RootController2 implements Initializable {
+	@FXML TableView<Student2> tableView;
 	@FXML Button btnAdd, btnBarChart;
 	
-	ObservableList<Student> list; 
+	ObservableList<Student2> list; 
 	
 	Stage primaryStage;
 	
@@ -41,16 +41,19 @@ public class RootController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		TableColumn<Student, ?> tc = tableView.getColumns().get(0);//첫번째칼럼
-		tc.setCellValueFactory(new PropertyValueFactory<>("name"));
+		TableColumn<Student2, ?> tc = tableView.getColumns().get(0);//첫번째칼럼
+		tc.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
 		tc = tableView.getColumns().get(1);
-		tc.setCellValueFactory(new PropertyValueFactory<>("korean"));
+		tc.setCellValueFactory(new PropertyValueFactory<>("name"));
 		
 		tc = tableView.getColumns().get(2);
-		tc.setCellValueFactory(new PropertyValueFactory<>("math"));
+		tc.setCellValueFactory(new PropertyValueFactory<>("korean"));
 		
 		tc = tableView.getColumns().get(3);
+		tc.setCellValueFactory(new PropertyValueFactory<>("math"));
+		
+		tc = tableView.getColumns().get(4);
 		tc.setCellValueFactory(new PropertyValueFactory<>("english"));
 		
 		//성적저장
@@ -59,9 +62,9 @@ public class RootController implements Initializable {
 		tableView.setItems(list);
 		
 		//자동추가
-		list.add(new Student("학생1",10,15,20));
-		list.add(new Student("학생2",20,30,10));
-		list.add(new Student("학생3",50,25,30));
+		list.add(new Student2("001","학생1",10,15,20));
+		list.add(new Student2("002","학생2",20,30,10));
+		list.add(new Student2("003","학생3",50,25,30));
 		
 		//추가버튼
 		btnAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -148,26 +151,26 @@ public class RootController implements Initializable {
 		Button btnUpdate = new Button("수정");
 		btnUpdate.setLayoutX(85);
 		btnUpdate.setLayoutY(184);
-		btnUpdate.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				for(int i = 0; i< list.size(); i++) {
-					if(list.get(i).getName().equals(name)) {
-						Student student = new Student(name, 
-								Integer.parseInt(tKorean.getText()), 
-								Integer.parseInt(tMath.getText()), 
-								Integer.parseInt(tEnglish.getText()));
-						list.set(i, student);
-						stage.close();
-					}
-				}
-			}
-			
-		});
+//		btnUpdate.setOnAction(new EventHandler<ActionEvent>() {
+//
+//			@Override
+//			public void handle(ActionEvent event) {
+//				for(int i = 0; i< list.size(); i++) {
+//					if(list.get(i).getName().equals(name)) {
+//						Student2 student = new Student2(name, 
+//								Integer.parseInt(tKorean.getText()), 
+//								Integer.parseInt(tMath.getText()), 
+//								Integer.parseInt(tEnglish.getText()));
+//						list.set(i, student);
+//						stage.close();
+//					}
+//				}
+//			}
+//			
+//		});
 		
 		//이름기준으로 국어, 수학, 영어 점수를 화면에 입력해주기
-		for(Student stu : list) {
+		for(Student2 stu : list) {
 			if(stu.getName().equals(name)) {
 				tMath.setText(String.valueOf(stu.getMath()));
 				tKorean.setText(String.valueOf(stu.getKorean()));
@@ -274,11 +277,17 @@ public class RootController implements Initializable {
 
 				@Override
 				public void handle(ActionEvent event) {
+					TextField txtID = (TextField) parent.lookup("#txtID");
 					TextField txtName = (TextField) parent.lookup("#txtName");
 					TextField txtKorean = (TextField) parent.lookup("#txtKorean");
 					TextField txtMath = (TextField) parent.lookup("#txtMath");
 					TextField txtEnglish = (TextField) parent.lookup("#txtEnglish");
-					Student student = new Student(
+					
+					
+					
+					
+					Student2 student = new Student2(
+							txtID.getText(),
 							txtName.getText(), 
 							Integer.parseInt(txtKorean.getText()), 
 							Integer.parseInt(txtMath.getText()), 
