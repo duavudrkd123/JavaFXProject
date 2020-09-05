@@ -244,13 +244,10 @@ public class RootController2 implements Initializable {
 		tEnglish.setLayoutY(startY+120);
 		
 		Button btnUpdate = new Button("수정");
-		btnUpdate.setLayoutX(85);
+		btnUpdate.setLayoutX(60);
 		btnUpdate.setLayoutY(184);
-		btnUpdate.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				
+		btnUpdate.setOnAction(event -> {
+	
 				String sql = "UPDATE STUDENT SET name = ?, KOREAN = ?, math = ?, english = ? WHERE ID = ?";
 				try {
 					PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -265,9 +262,25 @@ public class RootController2 implements Initializable {
 				}
 				stage.close();
 				listAdd();
-			}
-			
 		});
+		
+		Button btnDelte = new Button("삭제");
+		btnDelte.setLayoutX(120);
+		btnDelte.setLayoutY(184);
+		btnDelte.setOnAction(event -> {
+				
+				String sql = "DELETE from STUDENT WHERE ID = ?";
+				try {
+					PreparedStatement pstmt = conn.prepareStatement(sql);
+					pstmt.setNString(1, tID.getText());
+					pstmt.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				stage.close();
+				listAdd();
+		});
+		
 		
 		//이름기준으로 국어, 수학, 영어 점수를 화면에 입력해주기
 		for(Student2 stu : list) {
@@ -280,7 +293,7 @@ public class RootController2 implements Initializable {
 			}
 		}
 		
-		ap.getChildren().addAll(tID, tName, tKorean, tMath, tEnglish, lID, lName, lKorean, lMath, lEnglish, btnUpdate);
+		ap.getChildren().addAll(tID, tName, tKorean, tMath, tEnglish, lID, lName, lKorean, lMath, lEnglish, btnUpdate, btnDelte);
 		
 		Scene scene = new Scene(ap);
 		stage.setScene(scene);
@@ -301,7 +314,7 @@ public class RootController2 implements Initializable {
 			stage.show();
 			
 			//chart 가지고와서 series 추가하기
-			BarChart barChart = (BarChart) chart.lookup("#barChart");
+			BarChart<String, Integer> barChart = (BarChart<String, Integer>)chart.lookup("#barChart");
 			
 			//국어 category
 			XYChart.Series<String, Integer> seriesK = new XYChart.Series<String, Integer>();
@@ -358,6 +371,4 @@ public class RootController2 implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
-
 }
