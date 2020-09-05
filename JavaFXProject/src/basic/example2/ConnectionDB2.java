@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionDB {
+public class ConnectionDB2 {
 	
 	public static Connection getDB() {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";

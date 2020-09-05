@@ -1,6 +1,6 @@
 package basic.example2;
 
-import basic.example.RootController;
+//import basic.example2.RootController2;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,11 +16,11 @@ public class AppMain2 extends Application{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Root2.fxml"));
 		BorderPane root = loader.load();
 		
-		RootController controller = loader.getController();
+		RootController2 controller = loader.getController();
 		controller.setPrimaryStage(primaryStage);
 		
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("AppMain");
+		primaryStage.setTitle("AppMain2");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setResizable(false);

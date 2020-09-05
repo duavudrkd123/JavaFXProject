@@ -90,9 +90,6 @@ public class RootController implements Initializable {
 			
 		});
 		
-		//닫기버튼
-		
-		
 	}//end of initialize
 	
 	public void handleDoubleClickAction(String name) {

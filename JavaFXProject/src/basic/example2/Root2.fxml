@@ -8,7 +8,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="basic.example2.RootController2">
 	<center>
-		<TableView fx:id="tableView" prefWidth="420" prefHeight="200" >
+		<TableView fx:id="tableView" prefHeight="200" >
 			<columns>
 				<TableColumn prefWidth="100" resizable="false" text="ID" />
 				<TableColumn prefWidth="100" resizable="false" text="Name" />
@@ -19,10 +19,11 @@
 		</TableView>
 	</center>
 	<bottom>
-		<HBox prefHeight="50" alignment="CENTER">
+		<HBox prefHeight="50" alignment="CENTER" spacing="20">
 			<children>
-				<Button fx:id="btnAdd" text="Add" />
-				<Button fx:id="btnBarChart" text="BarChart" />
+				<Button fx:id="btnAdd" text="추가" />
+				<Button fx:id="btnBarChart" text="막대그래프" />
+				<Button fx:id="btnClear" text="삭제" />
 			</children>
 		</HBox>
 	</bottom>

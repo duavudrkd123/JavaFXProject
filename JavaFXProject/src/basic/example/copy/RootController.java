@@ -37,7 +37,7 @@ public class RootController implements Initializable {
 	@FXML Button btnAdd, btnBarChart;
 	
 	ObservableList<Student> list;
-	Connection conn = ConnectionDB.getDB();
+//	Connection conn = ConnectionDB.getDB();
 	ObservableList<Student> list2;
 	
 	Stage primaryStage;
@@ -68,19 +68,19 @@ public class RootController implements Initializable {
 		
 		//자동추가
 		
-		String sql = "select * from student";
-        try {
-           PreparedStatement pstmt =conn.prepareStatement(sql);
-           ResultSet rs = pstmt.executeQuery();
-           while(rs.next()) {
-              Student stu = new Student(rs.getString("name"),
-					                     rs.getInt("korean"),
-					                     rs.getInt("math"),
-					                     rs.getInt("engilsh"));
-              list2.add(stu);
-           };
-        	} catch (SQLException e) {
-	         e.printStackTrace();}
+//		String sql = "select * from student";
+//        try {
+//           PreparedStatement pstmt =conn.prepareStatement(sql);
+//           ResultSet rs = pstmt.executeQuery();
+//           while(rs.next()) {
+//              Student stu = new Student(rs.getString("name"),
+//					                     rs.getInt("korean"),
+//					                     rs.getInt("math"),
+//					                     rs.getInt("engilsh"));
+//              list2.add(stu);
+//           };
+//        	} catch (SQLException e) {
+//	         e.printStackTrace();}
 		
 //		addList();
 		
@@ -350,6 +350,16 @@ public class RootController implements Initializable {
 							Integer.parseInt(txtMath.getText()), 
 							Integer.parseInt(txtEnglish.getText()));
 					
+					
+					String url = "jdbc:oracle:thin:@localhost:1521:xe";
+					String user = "hr", passwd="hr";
+					Connection conn = null;
+					try {
+						Class.forName("oracle.jdbc.driver.OracleDriver");
+						conn = DriverManager.getConnection(url, user, passwd);
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
 					String sql = "insert into STUDENT values(?,?,?,?)";
 					try {
 						PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -362,7 +372,6 @@ public class RootController implements Initializable {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					
 					stage.close();
 				}
 			});
