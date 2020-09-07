@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import basic.common.ConnectionDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,11 +34,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class RootController2 implements Initializable {
-	@FXML TableView<Student2> tableView;
+	@FXML
+	TableView<Student2> tableView;
 	@FXML Button btnAdd, btnBarChart, btnClear;
 	
 	ObservableList<Student2> list;
-	Connection conn = ConnectionDB2.getDB();
+	Connection conn = ConnectionDB.getDB();
 	
 	Stage primaryStage;
 	
@@ -85,6 +87,7 @@ public class RootController2 implements Initializable {
 		
 	}//end of initialize
 	
+	//데이터 전체 삭제 메소드
 	public void handleBtnClearAction() {
 		String sql = "delete from STUDENT";
 		try {
@@ -98,7 +101,7 @@ public class RootController2 implements Initializable {
 	
 	//DB에서 자료 불러오기 메서드
 	public void listAdd() {
-		String sql = "select * from STUDENT";
+		String sql = "select * from STUDENT order by Id";
 			try {
 			 	list = FXCollections.observableArrayList();   
 			 	PreparedStatement pstmt =conn.prepareStatement(sql);
@@ -139,15 +142,7 @@ public class RootController2 implements Initializable {
 					TextField txtKorean = (TextField) parent.lookup("#txtKorean");
 					TextField txtMath = (TextField) parent.lookup("#txtMath");
 					TextField txtEnglish = (TextField) parent.lookup("#txtEnglish");
-					
-//					Student2 student = new Student2(
-//						txtID.getText(),
-//						txtName.getText(), 
-//						Integer.parseInt(txtKorean.getText()), 
-//						Integer.parseInt(txtMath.getText()), 
-//						Integer.parseInt(txtEnglish.getText()));
-//					
-//					list.add(student);
+				
 									
 					String sql = "insert into STUDENT values(?,?,?,?,?)";
 					try {
@@ -248,7 +243,7 @@ public class RootController2 implements Initializable {
 		btnUpdate.setLayoutY(184);
 		btnUpdate.setOnAction(event -> {
 	
-				String sql = "UPDATE STUDENT SET name = ?, KOREAN = ?, math = ?, english = ? WHERE ID = ?";
+				String sql = "UPDATE STUDENT SET name = ?, korean = ?, math = ?, english = ? WHERE ID = ?";
 				try {
 					PreparedStatement pstmt = conn.prepareStatement(sql);
 					pstmt.setNString(1,	tName.getText());
